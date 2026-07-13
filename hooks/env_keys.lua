@@ -4,30 +4,16 @@
 --- @param ctx table Context information
 --- @field ctx.path string SDK installation directory
 function PLUGIN:EnvKeys(ctx)
-    --- this variable is same as ctx.sdkInfo['plugin-name'].path
-    local mainPath = ctx.path
-    local mainSdkInfo = ctx.main
-    local mpath = mainSdkInfo.path
-    local mversion = mainSdkInfo.version
-    local mname = mainSdkInfo.name
-    local sdkInfo = ctx.sdkInfo['sdk-name']
-    local path = sdkInfo.path
-    local version = sdkInfo.version
-    local name = sdkInfo.name
+    local install_path = ctx.path
+
+    -- The iii binary is extracted to the root of the installation directory
+    -- On Unix: the binary is at <install_path>/iii
+    -- On Windows: the binary is at <install_path>/iii.exe
+    -- Add the installation directory to PATH so the iii command is available
     return {
         {
-            key = "JAVA_HOME",
-            value = mainPath
-        },
-        {
             key = "PATH",
-            value = mainPath .. "/bin"
+            value = install_path
         },
-        {
-            key = "PATH",
-            value = mainPath .. "/bin2"
-        },
-
     }
-
 end
